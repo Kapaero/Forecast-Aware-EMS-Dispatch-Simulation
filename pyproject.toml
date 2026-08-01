@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ems-online-planning"
+version = "0.1.0"
+description = "Simulation study of online and forecast-aware EMS dispatch and transport planning."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+]
+authors = [
+    { name = "Research Team" }
+]
+keywords = [
+    "ems",
+    "ambulance",
+    "dispatch",
+    "simulation",
+    "online-optimization",
+    "monte-carlo",
+    "healthcare-operations",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.scripts]
+ems-online-planning = "ems_online_planning.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
