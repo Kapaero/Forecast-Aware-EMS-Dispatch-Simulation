@@ -18,13 +18,72 @@ figures, and method validation. The survival score used here is a normalized
 utility function for comparing policies under identical scenarios; it should not
 be interpreted as a clinically validated individual survival probability.
 
+## Results at a Glance
+
+The figures below reproduce the 10-seed aggregate used in the manuscript draft.
+They are included directly in the repository so the README can communicate the
+main result without requiring the reader to run the simulation first.
+
+### Mean survival by policy
+
+Forecast-aware planning is closest to the offline oracle in the overload and
+mass-casualty regimes, while the low-load control case leaves little room for
+planning to improve over a greedy dispatcher.
+
+![Mean survival by policy](docs/figures/mean_survival_by_policy.png)
+
+### Planning gain over greedy dispatch
+
+The clearest gains appear when the system has a spatial bottleneck, resource
+scarcity, or burst demand. In the stable low-load setting, forecast-aware
+planning can be slightly worse because the greedy policy already serves all
+incidents without creating meaningful downstream scarcity.
+
+![Planning gain vs greedy](docs/figures/planning_gain_vs_greedy.png)
+
+### Total care time
+
+The model tracks the complete care chain, not only response time. Rural crossing
+and overload scenarios produce longer total care times because ambulances spend
+more time crossing the barrier, traveling from rural scenes, and waiting for
+availability.
+
+![Mean total care time](docs/figures/mean_total_care_time.png)
+
+### Forecast quality robustness
+
+Prediction quality matters, especially in the rural-crossing and overload
+settings. Random forecasts generally degrade performance more than noisy
+forecasts, although small-sample stochastic effects can appear in the baseline
+case.
+
+![Prediction quality penalty](docs/figures/prediction_quality_penalty.png)
+
+### Service rate
+
+In these runs, greedy and forecast-aware planning serve nearly the same fraction
+of incidents. The main difference is therefore not “more patients served”, but
+better assignment of ambulances, routes, and hospitals for the patients who are
+served.
+
+![Service rate by scenario](docs/figures/service_rate_by_scenario.png)
+
 ## Repository Layout
 
 ```text
 .
 ├── README.md
+├── docs/
+│   └── figures/
+│       ├── mean_survival_by_policy.png
+│       ├── planning_gain_vs_greedy.png
+│       ├── mean_total_care_time.png
+│       ├── prediction_quality_penalty.png
+│       └── service_rate_by_scenario.png
 ├── pyproject.toml
 ├── requirements.txt
+├── scripts/
+│   └── make_readme_figures.py
 ├── src/
 │   └── ems_online_planning/
 │       ├── __init__.py
@@ -76,6 +135,15 @@ Save basic figures as PNG files:
 ```bash
 ems-online-planning --mode full --seeds 10 --experiment planning-gain --figures --output-dir outputs/full_10
 ```
+
+Regenerate the static README figures:
+
+```bash
+python scripts/make_readme_figures.py
+```
+
+The static README figures are based on the manuscript's 10-seed aggregate. The
+CLI-generated figures are based on the data produced by your current run.
 
 ## Experiments
 
